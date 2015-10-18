@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require 'optparse'
+require 'fileutils'
 require 'rexml/document'
 include REXML
 
@@ -10,7 +11,29 @@ def replace_brackets(s)
     s
 end
 
+def replace_quotes(s)
+    s = s.gsub "'","\\\\'"
+    s = s.gsub '"','\''
+    s = s.gsub "''", "NULL"
+    s
+end
+
+def remove_quotes(s)
+    s = s.gsub '"', ''
+    s
+end
+
+class String
+    def is_i?
+        /\A[-+]?\d+\z/ === self
+    end
+end
+
 def process_file(input_file)
+    output_dir = "sql"
+    unless Dir.exist?(output_dir)
+        FileUtils.mkdir_p(output_dir)
+    end
     output_file = nil
     table_name = nil
    
@@ -25,17 +48,22 @@ def process_file(input_file)
             next
         end
         # Resolve keys & values
-        keys_to_s = replace_brackets(element.attributes.keys.to_s)
-        values = element.attributes.values.map! {|val| val.value}
-        values_to_s = replace_brackets(values.to_s)
+        keys_to_s = remove_quotes(replace_brackets(element.attributes.keys.to_s))
+        values = element.attributes.values.map! {|val| 
+            if val.value.is_i?
+                val = val.value.to_i
+            else
+                val = val.value
+            end
+        }
+        values_to_s = replace_brackets(replace_quotes(values.to_s))
         statement = "INSERT INTO #{table_name} #{keys_to_s} VALUES #{values_to_s};"
         
-        File.open(output_file, 'a') do |output_file|
+        File.open("#{output_dir}/#{output_file}", 'a') do |output_file|
             output_file.puts statement
         end
     end
 end
-
 if __FILE__ == $0
     options = {}
     optparse = OptionParser.new do |opts|
