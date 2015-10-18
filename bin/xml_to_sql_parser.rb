@@ -63,7 +63,7 @@ if __FILE__ == $0
 
     dir = options[:dir]
     if dir != nil then
-        Dir.glob("*.xml") do |filename|
+        Dir.glob("#{dir}/*.xml") do |filename|
             process_file(filename)
         end
     end
