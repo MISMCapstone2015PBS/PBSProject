@@ -48,7 +48,8 @@ def process_file(input_file)
             next
         end
         # Resolve keys & values
-        keys_to_s = remove_quotes(replace_brackets(element.attributes.keys.to_s))
+        keys = element.attributes.keys
+        keys_to_s = remove_quotes(replace_brackets(keys[1..keys.size].to_s))
         values = element.attributes.values.map! {|val| 
             if val.value.is_i?
                 val = val.value.to_i
@@ -56,7 +57,7 @@ def process_file(input_file)
                 val = val.value
             end
         }
-        values_to_s = replace_brackets(replace_quotes(values.to_s))
+        values_to_s = replace_brackets(replace_quotes(values[1..values.size].to_s))
         statement = "INSERT INTO #{table_name} #{keys_to_s} VALUES #{values_to_s};"
         
         File.open("#{output_dir}/#{output_file}", 'a') do |output_file|
