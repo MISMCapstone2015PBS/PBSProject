@@ -41,9 +41,8 @@ def xml_to_sqlite(path):
     for xml_file in list_of_files:
         start_time = time.time()
         table_name = xml_file.split('-')[2:-1]
-        print table_name, len(table_name)
         if len(table_name) == 0:
-            file.write('Skipped {1} file at {2} in {3} seconds due to invalid name\n'.format(xml_file, time.localtime(), end_time - start_time))  
+            file.write('Skipped {0} file at {1} in {2} seconds due to invalid name\n'.format(xml_file, time.localtime(), end_time - start_time))  
             continue
         else:
             df = xml_to_df(path,xml_file)
