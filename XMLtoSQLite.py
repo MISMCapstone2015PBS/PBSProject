@@ -22,6 +22,7 @@ def xml_to_df(file_path, xml_file):
     xml_root = xml_tree.getroot() # Get root of XML tree
     # Create a basic table structure from blocks in XML Tree
     xml_table = pd.DataFrame([x.attrib for x in xml_root if x.tag==[block.tag for block in xml_root][0]])
+    del xml_table['Action']
     # Get exhaustive list of all tags/attributes in each child
     tags = list(set([y for x in [[child.tag for child in z] for z in xml_root if z.tag==[block.tag for block in xml_root][0]] for y in x] ))
     # Get text in each child (None if no child) for each block in tree anc convert to list of dictionaries
@@ -46,8 +47,9 @@ def xml_to_sqlite(path):
             continue
         else:
             df = xml_to_df(path,xml_file)
-            df.to_sql(table_name[0], conn,if_exists = 'append' ,flavor ='sqlite')
+            df.to_sql(table_name[0], conn,if_exists = 'append' ,flavor ='sqlite', index = False)
             end_time = time.time()
             file.write('Created/Modified {0} using {1} at {2} in {3} seconds\n'.format(table_name[0], xml_file, time.localtime(), end_time - start_time))  
     file.close()
+    conn.close()
 
