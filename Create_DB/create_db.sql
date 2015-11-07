@@ -1,64 +1,12 @@
-
-/*   DROP TABLES */
-
-/* SCHEDULE LEVEL TABLES */
-drop table schedule;
-drop table uplink;
-drop table feedFlag;
-
-/* PACKAGE LEVEL TABLES */
-drop table PackageElement;
-drop table Package_Flag;
-drop table Package_Attribute;
-drop table Package;
-drop table ElementType;
-drop table FlagType;
-drop table FlagClass;
-drop table Attribute;
-drop table Disclaimer;
-drop table Rating;
-drop table PackageType;
-
-/* PROGRAM/RIGHTS LEVEL TABLES*/
-drop table Asset_Rights;
-drop table Reup_Funder;
-drop table Reup_Contact;
-drop table Reup;
-drop table ProgramSegment_SegmentCategory;
-drop table ProgramSegment;
-drop table Asset_RelatedRights;
-drop table Asset_Talent;
-drop table Asset_Genre;
-drop table Asset_Keyword;
-drop table Asset_TiVoKeyword;
-drop table Program_Format;
-drop table Asset;
-
-drop table SegmentCategory;
-drop table Rights_Rule;
-drop table channel;
-drop table Rights_Group;
-drop table company;
-drop table contactType;
-drop table TalentRole;
-drop table Talent;
-drop table genre;
-drop table keyword;
-drop table TiVoKeyword;
-drop table format;
-Drop table Vchip;
-drop table FeedDistributor;
-drop table category;
-
 /*  
    P R O G R A M / R I G H T S   L E V E L 
           REFERENCE TABLES
 */
-create table category
-  (category_id int,
-   category_code Char(6),
-   category_description Varchar(40),
-   category_isArchived numeric(1) not null,
+create table Category
+  (Category_id int,
+   Category_code Char(6),
+   Category_description Varchar(40),
+   Category_isArchived numeric(1) not null,
    CONSTRAINT pk_Category PRIMARY KEY (category_id)
    );
 
@@ -103,11 +51,11 @@ create table FeedDistributor
    CONSTRAINT uc_Keyword_description UNIQUE (Keyword_description)
    );
 
- create table genre
-  (genre_id int,
-   genre_code Char(6),
-   genre_description Varchar(40) not null,
-   genre_isArchived numeric(1) not null,
+ create table Genre
+  (Genre_id int,
+   Genre_code Char(6),
+   Genre_description Varchar(40) not null,
+   Genre_isArchived numeric(1) not null,
    CONSTRAINT pk_genre PRIMARY KEY (genre_id)
    );
 
@@ -129,25 +77,25 @@ create table FeedDistributor
    CONSTRAINT pk_TalentRole PRIMARY KEY (TalentRole_id)
    );
 
- create table contactType
- (contactType_Id int,
-  contactType_Code Varchar(80) not null,
-   CONSTRAINT pk_contactType PRIMARY KEY (contactType_Id)
+ create table ContactType
+ (ContactType_Id int,
+  ContactType_Code Varchar(80) not null,
+   CONSTRAINT pk_contactType PRIMARY KEY (ContactType_Id)
   );
 
- create table company
- (company_Id int,
-  company_LongName Varchar(80) not null,
-  company_ShortName Varchar(40),
-  company_IsSupplier numeric(1),
-  company_IsLicensor numeric(1),
-  company_IsAgency numeric(1),
-  company_IsAdvertiser numeric(1),
-  company_IsFunder numeric(1),
-  company_IsProducer numeric(1),
-  company_IsPresenter numeric(1),
-  company_IsArchived numeric(1) not null,
-   CONSTRAINT pk_company PRIMARY KEY (company_Id)
+ create table Company
+ (Company_Id int,
+  Company_LongName Varchar(80) not null,
+  Company_ShortName Varchar(40),
+  Company_IsSupplier numeric(1),
+  Company_IsLicensor numeric(1),
+  Company_IsAgency numeric(1),
+  Company_IsAdvertiser numeric(1),
+  Company_IsFunder numeric(1),
+  Company_IsProducer numeric(1),
+  Company_IsPresenter numeric(1),
+  Company_IsArchived numeric(1) not null,
+   CONSTRAINT pk_company PRIMARY KEY (Company_Id)
   );
 
  create table Rights_Group
@@ -216,10 +164,10 @@ create table FeedDistributor
   CONSTRAINT fk_A_Asset_FeedDistributor_Id foreign key (Asset_FeedDistributor_Id) references FeedDistributor (FeedDistributor_Id)
   );
 
- create table Program_format
+ create table Program_Format
  (Format_Id int,
   Asset_Id int,
-  CONSTRAINT pk_Program_format PRIMARY KEY (Format_Id, Asset_Id),
+  CONSTRAINT pk_Program_Format PRIMARY KEY (Format_Id, Asset_Id),
   CONSTRAINT fk_PF_Format_Id FOREIGN KEY (Format_Id) REFERENCES Format (Format_Id),
   CONSTRAINT fk_PF_asset_Id FOREIGN KEY (Asset_Id) REFERENCES Asset(Asset_Id)
   );
@@ -360,7 +308,7 @@ create table FeedDistributor
      P A C K A G E   L E V E L
   */
 
-  create table packageType
+  create table PackageType
   (PackageType_id int,
    PackageType_Code char(6),
    PackageType_Description varchar(80),
@@ -497,8 +445,6 @@ create table FeedDistributor
 	 CONSTRAINT pk_PackageElement PRIMARY KEY (PackageElement_Id),
 	 CONSTRAINT fk_PE_Package FOREIGN KEY (PackageElement_Package_Id) REFERENCES Package (Package_Id),
 	 CONSTRAINT fk_PE_ElementType FOREIGN KEY (PackageElement_ElementType_Id) REFERENCES ElementType (ElementType_Id)
-	 --asset_id
-	 --underwriting_id
 	 );
 
 
@@ -547,5 +493,4 @@ create table FeedDistributor
 	  CONSTRAINT fk_S_Schedule_Asset FOREIGN KEY (Schedule_Asset_Id) REFERENCES Asset (Asset_Id),
 	  CONSTRAINT fk_S_Schedule_Uplink FOREIGN KEY (Schedule_Uplink_Id) REFERENCES Uplink (Uplink_Id),
 	  CONSTRAINT fk_S_Schedule_FeedFlag FOREIGN KEY (Schedule_FeedFlag_Id) REFERENCES FeedFlag (FeedFlag_Id)
-	  --parent_id
 	  );
