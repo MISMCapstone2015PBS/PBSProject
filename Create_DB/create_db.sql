@@ -64,7 +64,7 @@ create table FeedDistributor
    Talent_Name Varchar(80),
    Talent_NameLast Varchar(40),
    Talent_NameFirst Varchar(40),
-   Talent_NameURL	Varchar(252),
+   Talent_URL	Varchar(252),
    Talent_isArchived numeric(1) not null,
    CONSTRAINT pk_Talent_id PRIMARY KEY (Talent_id)
    );
@@ -108,9 +108,9 @@ create table FeedDistributor
   (Channel_id int,
    Channel_Group_Id int not null,
    Channel_Type Char(3) not null,
-   Channel_description Varchar(20) not null,
+   Channel_Description Varchar(20) not null,
    CONSTRAINT pk_Channel PRIMARY KEY (Channel_id),
-   CONSTRAINT uc_Channel_description UNIQUE (Channel_description),
+   CONSTRAINT uc_Channel_Description UNIQUE (Channel_Description),
    CONSTRAINT fk_Channel_Group_Id foreign key (Channel_Group_Id) references Rights_Group (Group_Id)
    );
 
@@ -351,11 +351,11 @@ create table FeedDistributor
    (FlagType_Id int,
     FlagType_Code char(6),
 	FlagType_Description varchar(80),
-	FlagType_IsArchvied numeric(1) not null,
+	FlagType_IsArchived numeric(1) not null,
 	CONSTRAINT pk_FlagType PRIMARY KEY (FlagType_Id)
 	);
 
-   create table ElementType
+   create table Element_Type
    (ElementType_Id int,
     ElementType_Code char(6) not null,
 	ElementType_Description varchar(40) not null,
@@ -444,7 +444,7 @@ create table FeedDistributor
 	 PackageElement_Description varchar(80),
 	 CONSTRAINT pk_PackageElement PRIMARY KEY (PackageElement_Id),
 	 CONSTRAINT fk_PE_Package FOREIGN KEY (PackageElement_Package_Id) REFERENCES Package (Package_Id),
-	 CONSTRAINT fk_PE_ElementType FOREIGN KEY (PackageElement_ElementType_Id) REFERENCES ElementType (ElementType_Id)
+	 CONSTRAINT fk_PE_ElementType FOREIGN KEY (PackageElement_ElementType_Id) REFERENCES Element_Type (ElementType_Id)
 	 );
 
 
@@ -457,9 +457,7 @@ create table FeedDistributor
 	  FeedFlag_Description char(6),
 	  FeedFlag_Code varchar(80),
 	  FeedFlag_IsArchived numeric(1) not null,
-	  CONSTRAINT pk_FeedFlag PRIMARY KEY (FeedFlag_Id),
-	  CONSTRAINT uc_FF_Description UNIQUE (FeedFlag_Description),
-	  CONSTRAINT uc_FF_Code UNIQUE (FeedFlag_Code)
+	  CONSTRAINT pk_FeedFlag PRIMARY KEY (FeedFlag_Id)
 	  );
 
 	  create table Uplink
@@ -467,9 +465,7 @@ create table FeedDistributor
 	   Uplink_Description char(6),
 	   Uplink_Code varchar(80),
 	   Uplink_IsArchived numeric(1) not null,
-	   CONSTRAINT pk_Uplink PRIMARY KEY (Uplink_Id),
-	   CONSTRAINT uc_Uplink_Desc UNIQUE (Uplink_Description),
-	   CONSTRAINT uc_Uplink_Code UNIQUE (Uplink_Code)
+	   CONSTRAINT pk_Uplink PRIMARY KEY (Uplink_Id)
 	   );
 
 	 create table Schedule

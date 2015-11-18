@@ -8,7 +8,7 @@ drop table PackageElement;
 drop table Package_Flag;
 drop table Package_Attribute;
 drop table Package;
-drop table ElementType;
+drop table Element_Type;
 drop table FlagType;
 drop table FlagClass;
 drop table Attribute;
