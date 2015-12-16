@@ -106,15 +106,10 @@ def get_assoc_list(max_assoc_len, init_col_list, data, support= None, lift_base 
     return final_assoc_list
 
 # Use association rules to generate user-specific recommendations
-def get_reco(data, assoc_rules):
-    user_reco = {}
-    for i in range(len(assoc_df)):
-        user_pref = assoc_df.loc[i]
-        for assoc_rule in final_assoc_list:
-            common = [k for k,v in (dict(user_pref)).items() if v==1 and k in assoc_rule]
-            reco = [x for x in assoc_rule if x not in user_pref]
-            if (len(common)>0) & (len(reco)>0):
-                print 'Common = ', common, len(common)
-                print reco
-                user_reco[i] = [reco,len(common)/len(assoc_rule)]
+def get_reco(user_pref, assoc_rules):
+    for assoc_rule in final_assoc_list:
+        common = [k for k,v in (dict(user_pref)).items() if v==1 and k in assoc_rule]
+        reco = [x for x in assoc_rule if x not in common]
+        if (len(common)>0) & (len(reco)>0):
+            user_reco = [reco,len(common)/len(assoc_rule)]
     return user_reco
