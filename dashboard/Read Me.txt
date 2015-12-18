@@ -1,0 +1,39 @@
+INSTRUCTIONS TO USE THE DASHBOARD
+
+For Business User:
+1. Make sure all this complete folder in intact and all the contents of this folder are not moved.
+2. sales_df.csv is the sample sales file that was received from PBS. If other sales data is uploaded, please make sure that the same columns are present in the new file as well.
+3. The sales_df.csv has about 0.9 million records. The Shiny dashboard will become very slow beyond 1 million (but it will work). So, make sure the data that is being analyzed does not exceed 1 million.
+4. Open the provided link in a web browser and start analyzing.
+5. The Shiny dashboard has been installed in AMAZON EC2 and it can be accessed through the below link:
+	http://52.91.34.217:3838/
+
+IF THE BROWSER DOES NOT WORK:
+
+1. Open all three R files in R-Studio
+2. Set the directory to current directory (the directory in which these 3 files are present)
+3. Run the below command in console:
+	shiny::runApp()
+4. Install any dashboard packages if necessary (If the above commnad throws error that Shiny packages are not found)
+	In Console, run
+	> install.packages("shinydashboard")
+	> install.packages("shiny")
+
+For Business and Technical User:
+1. The 3 main R files are
+	ui.R
+	server.R
+	global.R
+
+2. ui.R : This file contains the code responsible for the front end of the dashboard.
+3. server.R: This file contains the code responsible for the backend of the dashboard.
+4. global.R: This file contains all global information that is required even before the start of the dashboard. global.R is always executed first.
+5. To add a new tab:
+	In ui.R:
+		Add a menuitem in the sidebar
+		Then add a tabitem in the body
+	In server.R:
+		Add the logic for what is to be shown in the body of this tab(tabitem) in the front end
+
+
+
