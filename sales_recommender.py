@@ -37,6 +37,8 @@ def clean_pickle(path):
     sales_df.to_pickle("sales_df.p")
     sales_df.to_csv('sales_df.csv' , encoding = 'utf-8')
     
+    return sales_df
+    
     
 # Convert sales data into vector for associations rule mining
 def get_assoc_df(df):
